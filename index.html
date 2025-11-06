@@ -261,6 +261,109 @@
             color: #856404;
         }
 
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+            animation: fadeIn 0.3s;
+        }
+
+        .modal.active {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            max-width: 600px;
+            width: 90%;
+            max-height: 80vh;
+            overflow-y: auto;
+            position: relative;
+            animation: slideUp 0.3s;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes slideUp {
+            from {
+                transform: translateY(50px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .close-btn {
+            position: absolute;
+            right: 20px;
+            top: 20px;
+            font-size: 28px;
+            font-weight: bold;
+            color: #999;
+            cursor: pointer;
+            line-height: 1;
+            transition: color 0.3s;
+        }
+
+        .close-btn:hover {
+            color: #333;
+        }
+
+        .modal-content h2 {
+            color: #2563eb;
+            margin-bottom: 20px;
+        }
+
+        .modal-content pre {
+            background: #f5f5f5;
+            padding: 15px;
+            border-radius: 8px;
+            overflow-x: auto;
+            margin: 10px 0;
+            border-left: 4px solid #2563eb;
+        }
+
+        .modal-content code {
+            font-family: 'Courier New', monospace;
+            color: #d63384;
+        }
+
+        .modal-content ol {
+            margin-left: 20px;
+        }
+
+        .modal-content li {
+            margin: 10px 0;
+            line-height: 1.8;
+        }
+
+        .info-box {
+            background: #e7f3ff;
+            border-left: 4px solid #2563eb;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 8px;
+        }
+
+        .info-box strong {
+            color: #2563eb;
+        }
+
         @media (max-width: 768px) {
             h1 {
                 font-size: 2.5rem;
@@ -280,6 +383,10 @@
 
             .btn {
                 width: 100%;
+            }
+
+            .modal-content {
+                padding: 30px 20px;
             }
         }
     </style>
@@ -303,7 +410,7 @@
                 </p>
 
                 <div class="btn-group">
-                    <a href="./frontend/index.html" class="btn btn-primary">🚀 앱 시작하기</a>
+                    <button onclick="openModal()" class="btn btn-primary">🚀 앱 시작하기</button>
                     <a href="https://github.com/hong9883/solideo-Day2-01-23-Practice2" class="btn btn-secondary">📂 GitHub 보기</a>
                 </div>
             </div>
@@ -423,7 +530,7 @@
                     지금 바로 시작하세요!
                 </h2>
                 <div class="btn-group">
-                    <a href="./frontend/index.html" class="btn btn-primary">✈️ 여행 계획 시작</a>
+                    <button onclick="openModal()" class="btn btn-primary">✈️ 여행 계획 시작</button>
                     <a href="./README.md" class="btn btn-secondary">📖 사용 가이드</a>
                 </div>
             </div>
@@ -444,5 +551,102 @@
             </p>
         </footer>
     </div>
+
+    <!-- Modal -->
+    <div id="startModal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeModal()">&times;</span>
+            <h2>🚀 TravelMate 시작하기</h2>
+
+            <div class="info-box">
+                <strong>📌 중요!</strong><br>
+                TravelMate는 React + Vite로 개발된 웹 애플리케이션입니다.<br>
+                개발 서버를 실행하여 사용하실 수 있습니다.
+            </div>
+
+            <h3 style="color: #2563eb; margin-top: 30px; margin-bottom: 15px;">
+                ⚡ 빠른 시작 (3단계)
+            </h3>
+
+            <ol>
+                <li>
+                    <strong>터미널을 열고 저장소 클론:</strong>
+                    <pre><code>git clone https://github.com/hong9883/solideo-Day2-01-23-Practice2.git
+cd solideo-Day2-01-23-Practice2
+git checkout claude/travel-personalization-app-011CUrMMdCdcNgfvkpJGPNSo</code></pre>
+                </li>
+
+                <li>
+                    <strong>패키지 설치:</strong>
+                    <pre><code>npm run install:all</code></pre>
+                </li>
+
+                <li>
+                    <strong>개발 서버 실행:</strong>
+                    <pre><code>npm run dev</code></pre>
+                    <p style="margin-top: 10px; color: #666;">
+                        그 후 브라우저에서 <code>http://localhost:3000</code> 접속
+                    </p>
+                </li>
+            </ol>
+
+            <h3 style="color: #2563eb; margin-top: 30px; margin-bottom: 15px;">
+                🔑 Google Maps API 키 설정
+            </h3>
+            <p>지도 기능을 사용하려면 Google Maps API 키가 필요합니다:</p>
+            <ol>
+                <li><code>.env.example</code>을 복사하여 <code>.env</code> 파일 생성</li>
+                <li>Google Cloud Console에서 Maps API 키 발급</li>
+                <li><code>.env</code> 파일에 키 입력:
+                    <pre><code>VITE_GOOGLE_MAPS_API_KEY=your_api_key_here</code></pre>
+                </li>
+            </ol>
+
+            <div class="info-box" style="background: #d4edda; border-left-color: #28a745; margin-top: 30px;">
+                <strong>✅ 완료!</strong><br>
+                이제 <code>http://localhost:3000</code>에서 TravelMate를 사용하실 수 있습니다!
+            </div>
+
+            <div style="text-align: center; margin-top: 30px;">
+                <a href="https://github.com/hong9883/solideo-Day2-01-23-Practice2"
+                   class="btn btn-primary"
+                   style="display: inline-block; margin: 10px;">
+                    📂 GitHub에서 보기
+                </a>
+                <a href="./README.md"
+                   class="btn btn-secondary"
+                   style="display: inline-block; margin: 10px;">
+                    📖 자세한 가이드
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function openModal() {
+            document.getElementById('startModal').classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal() {
+            document.getElementById('startModal').classList.remove('active');
+            document.body.style.overflow = 'auto';
+        }
+
+        // Close modal when clicking outside
+        window.onclick = function(event) {
+            const modal = document.getElementById('startModal');
+            if (event.target === modal) {
+                closeModal();
+            }
+        }
+
+        // Close modal with Escape key
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'Escape') {
+                closeModal();
+            }
+        });
+    </script>
 </body>
 </html>
