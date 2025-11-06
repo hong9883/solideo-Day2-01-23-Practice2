@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="TravelMate - AI 기반 맞춤형 여행 계획 서비스. 실시간 교통편 연계 및 취향 맞춤 추천으로 완벽한 여행을 시작하세요!">
+    <meta name="keywords" content="여행, 여행 계획, AI 추천, 교통편, 맛집, 관광지, TravelMate">
+    <title>TravelMate - AI 기반 여행 개인화 앱</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+                'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            text-align: center;
+            padding: 60px 20px 40px;
+            color: white;
+        }
+
+        .logo {
+            font-size: 80px;
+            margin-bottom: 20px;
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        h1 {
+            font-size: 3.5rem;
+            margin-bottom: 20px;
+            font-weight: 700;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+        }
+
+        .tagline {
+            font-size: 1.5rem;
+            margin-bottom: 30px;
+            opacity: 0.95;
+        }
+
+        .main-content {
+            background: white;
+            border-radius: 20px;
+            padding: 60px 40px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            margin-bottom: 40px;
+        }
+
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+            margin: 50px 0;
+        }
+
+        .feature-card {
+            padding: 30px;
+            border-radius: 15px;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            transition: transform 0.3s, box-shadow 0.3s;
+            text-align: center;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+
+        .feature-icon {
+            font-size: 3rem;
+            margin-bottom: 15px;
+        }
+
+        .feature-card h3 {
+            color: #2563eb;
+            margin-bottom: 10px;
+            font-size: 1.5rem;
+        }
+
+        .feature-card p {
+            color: #666;
+            line-height: 1.8;
+        }
+
+        .cta-section {
+            text-align: center;
+            margin: 60px 0;
+        }
+
+        .btn-group {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 30px;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 18px 40px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1.1rem;
+            transition: all 0.3s;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-secondary {
+            background: white;
+            color: #667eea;
+            border: 2px solid #667eea;
+        }
+
+        .btn-secondary:hover {
+            background: #667eea;
+            color: white;
+        }
+
+        .tech-stack {
+            margin: 60px 0;
+        }
+
+        .tech-stack h2 {
+            text-align: center;
+            color: #2563eb;
+            margin-bottom: 40px;
+            font-size: 2rem;
+        }
+
+        .tech-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 20px;
+            text-align: center;
+        }
+
+        .tech-item {
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            transition: all 0.3s;
+        }
+
+        .tech-item:hover {
+            background: #e9ecef;
+            transform: scale(1.05);
+        }
+
+        .tech-item strong {
+            display: block;
+            color: #2563eb;
+            font-size: 1.1rem;
+            margin-top: 10px;
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 30px;
+            margin: 50px 0;
+            text-align: center;
+        }
+
+        .stat-item {
+            padding: 30px;
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        .stat-number {
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+
+        .stat-label {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        footer {
+            text-align: center;
+            padding: 40px 20px;
+            color: white;
+        }
+
+        footer a {
+            color: white;
+            text-decoration: none;
+            border-bottom: 2px solid white;
+            padding-bottom: 2px;
+        }
+
+        footer a:hover {
+            opacity: 0.8;
+        }
+
+        .setup-guide {
+            background: #fff3cd;
+            padding: 30px;
+            border-radius: 15px;
+            margin: 40px 0;
+            border-left: 5px solid #ffc107;
+        }
+
+        .setup-guide h3 {
+            color: #856404;
+            margin-bottom: 15px;
+        }
+
+        .setup-guide code {
+            background: #fff;
+            padding: 2px 6px;
+            border-radius: 4px;
+            color: #d63384;
+            font-family: 'Courier New', monospace;
+        }
+
+        .setup-guide ol {
+            margin-left: 20px;
+            margin-top: 15px;
+        }
+
+        .setup-guide li {
+            margin: 10px 0;
+            color: #856404;
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2.5rem;
+            }
+
+            .tagline {
+                font-size: 1.2rem;
+            }
+
+            .main-content {
+                padding: 40px 20px;
+            }
+
+            .btn-group {
+                flex-direction: column;
+            }
+
+            .btn {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="logo">✈️</div>
+            <h1>TravelMate</h1>
+            <p class="tagline">AI 기반 맞춤형 여행 계획 서비스</p>
+        </header>
+
+        <div class="main-content">
+            <div class="cta-section">
+                <h2 style="font-size: 2.5rem; color: #2563eb; margin-bottom: 20px;">
+                    완벽한 여행, 이제는 AI와 함께
+                </h2>
+                <p style="font-size: 1.2rem; color: #666; max-width: 800px; margin: 0 auto 30px;">
+                    실시간 교통편 연계, 취향 맞춤 추천, 지도 시각화까지<br>
+                    당신만을 위한 여행 계획을 만들어보세요
+                </p>
+
+                <div class="btn-group">
+                    <a href="./frontend/index.html" class="btn btn-primary">🚀 앱 시작하기</a>
+                    <a href="https://github.com/hong9883/solideo-Day2-01-23-Practice2" class="btn btn-secondary">📂 GitHub 보기</a>
+                </div>
+            </div>
+
+            <div class="stats">
+                <div class="stat-item">
+                    <div class="stat-number">6종</div>
+                    <div class="stat-label">교통수단 통합</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">8가지</div>
+                    <div class="stat-label">여행 스타일</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">10가지</div>
+                    <div class="stat-label">음식 카테고리</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">100%</div>
+                    <div class="stat-label">맞춤형 추천</div>
+                </div>
+            </div>
+
+            <div class="features">
+                <div class="feature-card">
+                    <div class="feature-icon">🚆</div>
+                    <h3>실시간 교통편 통합</h3>
+                    <p>버스, 기차, KTX, 비행기, 지하철, 택시까지 모든 교통수단을 한 번에 비교하고 최적의 경로를 찾아드립니다.</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">🗺️</div>
+                    <h3>Google Maps 시각화</h3>
+                    <p>인터랙티브 지도에서 경로를 한눈에 확인하세요. 교통수단별 색상 구분으로 더욱 명확하게!</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">🎯</div>
+                    <h3>AI 맞춤 추천</h3>
+                    <p>당신의 여행 스타일과 음식 취향을 분석하여 최적의 관광지와 맛집을 추천해드립니다.</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">💰</div>
+                    <h3>예산 최적화</h3>
+                    <p>설정한 예산에 맞춰 가성비 좋은 경로와 장소를 우선적으로 보여드립니다.</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">📱</div>
+                    <h3>반응형 디자인</h3>
+                    <p>모바일, 태블릿, 데스크톱 어디서나 완벽하게 작동합니다.</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">⚡</div>
+                    <h3>빠른 검색</h3>
+                    <p>최신 웹 기술로 구현된 빠르고 부드러운 사용자 경험을 제공합니다.</p>
+                </div>
+            </div>
+
+            <div class="setup-guide">
+                <h3>🚀 로컬 환경에서 실행하기</h3>
+                <ol>
+                    <li><strong>저장소 클론:</strong> <code>git clone https://github.com/hong9883/solideo-Day2-01-23-Practice2.git</code></li>
+                    <li><strong>브랜치 체크아웃:</strong> <code>git checkout claude/travel-personalization-app-011CUrMMdCdcNgfvkpJGPNSo</code></li>
+                    <li><strong>패키지 설치:</strong> <code>npm run install:all</code></li>
+                    <li><strong>환경 변수 설정:</strong> <code>.env</code> 파일 생성 후 Google Maps API 키 입력</li>
+                    <li><strong>개발 서버 실행:</strong> <code>npm run dev</code></li>
+                    <li><strong>브라우저에서 열기:</strong> <code>http://localhost:3000</code></li>
+                </ol>
+                <p style="margin-top: 20px; font-size: 0.95rem;">
+                    📖 자세한 설명은 <a href="./README.md" style="color: #2563eb; text-decoration: underline;">README.md</a>를 참조하세요.
+                </p>
+            </div>
+
+            <div class="tech-stack">
+                <h2>⚙️ 기술 스택</h2>
+                <div class="tech-grid">
+                    <div class="tech-item">
+                        <div style="font-size: 2rem;">⚛️</div>
+                        <strong>React 18</strong>
+                    </div>
+                    <div class="tech-item">
+                        <div style="font-size: 2rem;">📘</div>
+                        <strong>TypeScript</strong>
+                    </div>
+                    <div class="tech-item">
+                        <div style="font-size: 2rem;">⚡</div>
+                        <strong>Vite</strong>
+                    </div>
+                    <div class="tech-item">
+                        <div style="font-size: 2rem;">🎨</div>
+                        <strong>Tailwind CSS</strong>
+                    </div>
+                    <div class="tech-item">
+                        <div style="font-size: 2rem;">🟢</div>
+                        <strong>Node.js</strong>
+                    </div>
+                    <div class="tech-item">
+                        <div style="font-size: 2rem;">🚂</div>
+                        <strong>Express.js</strong>
+                    </div>
+                    <div class="tech-item">
+                        <div style="font-size: 2rem;">🗺️</div>
+                        <strong>Google Maps</strong>
+                    </div>
+                    <div class="tech-item">
+                        <div style="font-size: 2rem;">🎯</div>
+                        <strong>REST API</strong>
+                    </div>
+                </div>
+            </div>
+
+            <div style="text-align: center; margin: 60px 0 40px;">
+                <h2 style="font-size: 2rem; color: #2563eb; margin-bottom: 30px;">
+                    지금 바로 시작하세요!
+                </h2>
+                <div class="btn-group">
+                    <a href="./frontend/index.html" class="btn btn-primary">✈️ 여행 계획 시작</a>
+                    <a href="./README.md" class="btn btn-secondary">📖 사용 가이드</a>
+                </div>
+            </div>
+        </div>
+
+        <footer>
+            <p style="margin-bottom: 10px; font-size: 1.1rem;">
+                Made with ❤️ for travelers
+            </p>
+            <p>
+                <a href="https://github.com/hong9883/solideo-Day2-01-23-Practice2">GitHub</a> |
+                <a href="./README.md">Documentation</a> |
+                <a href="./CONTRIBUTING.md">Contributing</a> |
+                <a href="./LICENSE.md">License</a>
+            </p>
+            <p style="margin-top: 20px; opacity: 0.8; font-size: 0.9rem;">
+                © 2025 TravelMate. All rights reserved.
+            </p>
+        </footer>
+    </div>
+</body>
+</html>
